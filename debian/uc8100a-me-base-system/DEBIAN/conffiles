@@ -1,0 +1,6 @@
+/etc/fw_env.config
+/etc/modprobe.d/blacklist.conf
+/etc/modprobe.d/watchdog.conf
+/etc/rc.local
+/etc/systemd/system/multi-user.target.wants/rc.local.service
+/etc/systemd/system/multi-user.target.wants/uc8100a_me_init.service

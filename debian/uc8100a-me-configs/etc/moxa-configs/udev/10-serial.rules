@@ -1,0 +1,4 @@
+KERNEL=="ttyS1", SUBSYSTEM=="tty", ACTION=="add", SYMLINK+="ttyM0"
+KERNEL=="ttyS1", SUBSYSTEM=="tty", ACTION=="add", SYMLINK+="ttyMI0"
+KERNEL=="ttyS2", SUBSYSTEM=="tty", ACTION=="add", SYMLINK+="ttyM1"
+KERNEL=="ttyS2", SUBSYSTEM=="tty", ACTION=="add", SYMLINK+="ttyMI1"

@@ -1,0 +1,12 @@
+Package: uc8100a-me-base-system
+Source: uc8100a-me-system
+Version: 1.0.0+deb9
+Architecture: armhf
+Maintainer: Fero JD Zhou <FeroJD.Zhou@moxa.com>
+Installed-Size: 127
+Depends: uc8100a-me-kernel, uc8100a-me-modules-std, uc8100a-me-configs, moxa-led-control, moxa-push-button, moxa-uart-control, moxa-cellular-utils, moxa-cellular-signald, moxa-type-a-img-setdef, moxa-type-a-img-p3-rfs
+Section: admin
+Priority: required
+Homepage: https://www.moxa.com/
+Description: Base system for UC-8100A-ME
+ It contains the necessary tools for setting up UC-8100A-ME

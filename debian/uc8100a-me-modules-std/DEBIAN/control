@@ -1,0 +1,11 @@
+Package: uc8100a-me-modules-std
+Source: uc8100a-me-system
+Version: 1.0.0+deb9
+Architecture: armhf
+Maintainer: Fero JD Zhou <FeroJD.Zhou@moxa.com>
+Installed-Size: 25006
+Section: admin
+Priority: required
+Homepage: https://www.moxa.com/
+Description: UC-8100A-ME standard kernel modules
+ The Linux standard kernel modules for use on UC-8100A-ME

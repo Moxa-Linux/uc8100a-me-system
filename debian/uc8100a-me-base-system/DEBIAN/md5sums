@@ -1,0 +1,13 @@
+ed8fb3b20c17ca37c620105eec9e586b  bin/factory_test.sh
+548c4c2b2d5577c496a773c70e6a5eb3  bin/i2cdump
+824cc5769aa5a73ef06856ee161eba21  bin/kversion
+28b3754536eec93a1fe1a99ac6bbe776  bin/moxaburn
+d088c290f84aa6e91f727b8c77611c7c  sbin/chk_fs
+4a2c8a7d553120aaece148c61030b708  sbin/eltt2
+b13046d088d39aa1ad054da318346440  sbin/expand2fs
+7e5d9a0705d8fde2ae74ae165ff9cace  sbin/mx_diag
+976fd05fb3eabdc96d35ab9a91126d4d  sbin/mx_led_control
+21c154bd9b87579c6ad210a89259b988  sbin/setinterface
+a63492d68fbc0b3fc034eee0e62ebb1a  sbin/uc8100a_me_platform_init
+97c6ae2760f726a69c06494337f0d1b8  usr/share/doc/uc8100a-me-base-system/changelog.gz
+5605911410272355e017a2c5bcf03cbf  usr/share/doc/uc8100a-me-base-system/copyright

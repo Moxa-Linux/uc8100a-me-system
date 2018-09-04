@@ -1,0 +1,29 @@
+{
+	"CONFIG_VERSION": "1.1.0",
+	"LED_TYPES": [
+		{
+			"TYPE": "SIGNAL",
+			"NUM_OF_GROUPS": 1,
+			"NUM_OF_LEDS_PER_GROUP": 3,
+			"PATHS": [
+				[
+					 "UC8100A_ME:RED:SGN1",
+					 "UC8100A_ME:YELLOW:SGN2",
+					 "UC8100A_ME:GREEN:SGN3"
+				]
+			]
+		},
+		{
+			"TYPE": "PROGRAMMABLE",
+			"NUM_OF_GROUPS": 1,
+			"NUM_OF_LEDS_PER_GROUP": 3,
+			"PATHS": [
+				[
+					"UC8100A_ME:RED:DIA1",
+					"UC8100A_ME:YELLOW:DIA2",
+					"UC8100A_ME:GREEN:DIA3"
+				]
+			]
+		}
+	]
+}

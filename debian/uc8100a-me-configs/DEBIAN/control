@@ -1,0 +1,12 @@
+Package: uc8100a-me-configs
+Source: uc8100a-me-system
+Version: 1.0.0+deb9
+Architecture: all
+Maintainer: Fero JD Zhou <FeroJD.Zhou@moxa.com>
+Installed-Size: 24
+Section: admin
+Priority: required
+Homepage: https://www.moxa.com/
+Description: UC-8100A-ME platform configuration file
+ The platform-related configuration items are recoreded in this file,
+ these items will be referred to other platform packages

@@ -1,0 +1,49 @@
+#!/bin/bash
+#       Copyright (C) MOXA Inc. All rights reserved.
+#       Copyright (C) 2014-2015  Lock Lin <Lock.Lin@moxa.com>
+#
+#       This software is distributed under the terms of the
+#       MOXA License.  See the file COPYING-MOXA for details.
+#
+#       expand2fs
+#               Expand the size of rootfilesystem when first boot.
+#
+
+do_expand_rootfs() {
+  fdisk $1 <<EOF
+p
+d
+4
+n
+p
+
+
+p
+
+w
+EOF
+
+partprobe
+sleep 1
+mkfs.ext4 $2
+resize2fs $2
+
+}
+
+# Get rootfile system partition from cmdline. e.g. /dev/mmcblk0p2
+#root_part=$(cat /proc/cmdline)
+#root_part="${root_part##*root=}"
+#root_part="${root_part%% *}"
+
+kernel_cmd=$(cat /proc/cmdline)
+rootfs_node="${kernel_cmd##*root=}"
+rootfs_node="${rootfs_node%% *}"
+root_node="${rootfs_node%%p2}"
+p4_node="${root_node}p4"
+
+do_expand_rootfs $root_node $p4_node
+sync
+echo "***************************************************" > /dev/ttyS0
+echo "*  The rootfilesystem is expanded successfully !  *" > /dev/ttyS0
+echo "*      This device is going to reboot NOW !!!     *" > /dev/ttyS0
+echo "***************************************************" > /dev/ttyS0

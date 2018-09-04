@@ -1,0 +1,15 @@
+base-system/kversion/kversion /bin
+base-system/chk_fs /sbin
+base-system/expand2fs /sbin
+base-system/uc8100a_me_platform_init /sbin
+base-system/mx_led_control /sbin
+base-system/setinterface /sbin
+base-system/mx_diag /sbin
+base-system/eltt2 /sbin
+base-system/uc8100a_me_init.service /etc/systemd/system/multi-user.target.wants
+base-system/blacklist.conf /etc/modprobe.d
+base-system/watchdog.conf /etc/modprobe.d
+base-system/rc.local.service /etc/systemd/system/multi-user.target.wants
+base-system/rc.local /etc/
+base-system/fw_env.config /etc
+base-system/t2_test/* /bin

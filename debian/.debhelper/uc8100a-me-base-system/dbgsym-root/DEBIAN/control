@@ -1,0 +1,13 @@
+Package: uc8100a-me-base-system-dbgsym
+Source: uc8100a-me-system
+Version: 1.0.0+deb9
+Auto-Built-Package: debug-symbols
+Architecture: armhf
+Maintainer: Fero JD Zhou <FeroJD.Zhou@moxa.com>
+Installed-Size: 31
+Depends: uc8100a-me-base-system (= 1.0.0+deb9)
+Section: debug
+Priority: extra
+Homepage: https://www.moxa.com/
+Description: Debug symbols for uc8100a-me-base-system
+Build-Ids: 1f39c6bb3119667879e16a75f55422f4183d8933 9c74c5373d5ee460105d174e6ee0f4d6f5ac3582

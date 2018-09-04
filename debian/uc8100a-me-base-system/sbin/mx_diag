@@ -1,0 +1,181 @@
+#!/bin/bash
+
+GREEN="/sys/class/leds/uc8100me:DIA3"
+YELLOW="/sys/class/leds/uc8100me:DIA2"
+RED="/sys/class/leds/uc8100me:DIA1"
+
+on_led()
+{
+	while [[ $# > 0 ]] ; do
+		echo 1 > ${1}/brightness
+		shift
+	done
+}
+
+off_led()
+{
+	while [[ $# > 0 ]] ; do
+		echo 0 > ${1}/brightness
+		shift
+	done
+}
+
+blink_led()
+{
+	while [[ $# > 0 ]] ; do
+		echo heartbeat > ${1}/trigger
+		shift
+	done
+}
+
+chk_uart()
+{
+
+	if [ ! -L /dev/ttyM0 ]; then
+		off_led ${GREEN} ${YELLOW} ${RED}
+		on_led ${RED} ${YELLOW}
+		off_led ${GREEN} 
+		exit
+	fi
+	if [ ! -L /dev/ttyM1 ]; then
+		off_led ${GREEN} ${YELLOW} ${RED}
+		on_led ${RED} ${YELLOW} 
+		blink_led ${GREEN} 
+		exit
+	fi
+}
+
+chk_lan()
+{
+	ret=`ifconfig | grep eth0`
+	if [ x"$ret" == x"" ]; then
+		off_led ${GREEN} ${YELLOW} ${RED}
+		on_led ${RED} 
+		off_led ${YELLOW} ${GREEN}
+		exit
+	fi
+	ret=`ifconfig | grep eth1`
+	if [ x"$ret" == x"" ]; then
+		off_led ${GREEN} ${YELLOW} ${RED}
+		on_led ${RED} 
+		off_led ${YELLOW} 
+		blink_led ${GREEN}
+		exit
+	fi
+}
+
+chk_btn()
+{
+	if [ ! -c /dev/input/event0 ]; then
+		off_led ${GREEN} ${YELLOW} ${RED}
+		on_led ${RED} 
+		off_led ${GREEN} 
+		blink_led ${YELLOW}
+		exit
+	fi
+}
+chk_tpm()
+{
+	ret=`kversion | grep "8112"`
+	if [ ! -c /dev/tpm0 ] && [ x"$ret" != x"" ]; then
+		off_led ${GREEN} ${YELLOW} ${RED}
+		on_led ${RED}
+		blink_led ${YELLOW} ${GREEN}
+		exit
+	fi
+}
+
+chk_led()
+{
+	ret=`ls -1 /sys/class/leds/ | wc -l`
+	if [ x"$ret" != x"9" ]; then
+		off_led ${GREEN} ${YELLOW} ${RED}
+		on_led ${RED} ${GREEN}
+		off_led ${YELLOW}
+		exit
+	fi
+}
+
+chk_cpu_usage()
+{
+	local usage
+	usage=`top -d 0.5 -b -n2 | grep "Cpu(s)"|tail -n 1 | awk '{print $2 + $4 + 0.5}' |cut -f1 -d"."`
+	if [ "$usage" -gt "90" ]; then
+		off_led ${GREEN} ${YELLOW} ${RED}
+		off_led ${GREEN}
+		on_led ${YELLOW} 
+		blink_led ${RED}
+		exit
+	fi
+}
+
+chk_ram_usage()
+{
+	local usage
+	usage=`free | grep Mem | awk '{print $3/$2 * 100 +0.5}' |cut -f1 -d"."`
+	if [ "$usage" -gt "90" ]; then
+		off_led ${GREEN} ${YELLOW} ${RED}
+		off_led ${RED}
+		on_led ${YELLOW} ${GREEN}
+		exit
+	fi
+
+}
+
+chk_disk_usage()
+{
+	local usage
+	usage=`df | grep 'dev/root' | awk '{print $5}' | tr -d "%"`
+	if [ "$usage" -gt "90" ]; then
+		off_led ${GREEN} ${YELLOW} ${RED}
+		off_led ${RED}
+		on_led ${YELLOW}
+		blink_led ${GREEN}
+		exit
+	fi
+}
+chk_fs_status()
+{
+	root_part=$(cat /proc/cmdline)
+	root_part="${root_part##*root=}"
+	root_part="${root_part%% *}"
+
+	fs_state=`debugfs -R 'stats' ${root_part} 2> /dev/null | grep "Filesystem state" | grep "errors"`
+	if [ x"$fs_state" != x"" ]; then
+		off_led ${GREEN} ${YELLOW} ${RED}
+		blink_led ${RED} ${GREEN}
+		on_led ${YELLOW}
+		exit
+	fi
+}
+
+exam_hw()
+{
+	chk_uart
+	chk_lan
+	chk_btn
+###	UC-8112-ME NO TPM ###
+#	chk_tpm
+	chk_led
+}
+
+exam_system()
+{
+	chk_cpu_usage
+	chk_ram_usage
+	chk_disk_usage
+	chk_fs_status
+}
+
+init_led()
+{
+	echo 1 > ${GREEN}/brightness
+	echo 0 > ${YELLOW}/brightness
+	echo heartbeat > ${RED}/trigger
+}
+
+
+init_led
+exam_hw
+exam_system
+off_led ${GREEN} ${YELLOW} ${RED}
