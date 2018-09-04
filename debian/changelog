@@ -1,3 +1,9 @@
+uc8100a-me-system (1.0.1+deb9) stretch; urgency=medium
+
+  * first commit
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Tue, 04 Sep 2018 22:48:25 +0800
+
 uc8100a-me-system (1.0.0+deb9) stretch; urgency=low
 
   * Initial Release.
