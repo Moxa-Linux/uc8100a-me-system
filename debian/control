@@ -8,7 +8,7 @@ Homepage: https://www.moxa.com/
 
 Package: uc8100a-me-base-system
 Architecture: any
-Depends: ${misc:Depends}, uc8100a-me-kernel, uc8100a-me-modules-std, uc8100a-me-configs, moxa-led-control, moxa-push-button, moxa-uart-control, moxa-cellular-utils, moxa-cellular-signald, moxa-type-a-img-setdef, moxa-type-a-img-p3-rfs
+Depends: ${misc:Depends}, uc8100a-me-kernel, uc8100a-me-modules-std, uc8100a-me-configs, uc8100a-me-sparklan-firmware, uc8100a-me-moxa-firmware, moxa-led-control, moxa-push-button, moxa-uart-control, moxa-cellular-utils, moxa-cellular-signald, moxa-wifi-utils, tpm2-tools, moxa-rclocal, u-boot-tools, moxa-firmware-tools
 Description: Base system for UC-8100A-ME
  It contains the necessary tools for setting up UC-8100A-ME
 
@@ -34,7 +34,7 @@ Description: UC-8100A-ME platform configuration file
 Package: uc8100a-me-sparklan-firmware
 Architecture: any
 Depends: ${misc:Depends},
-Description: Sparklan 160 ACN WiFi module firmware on moxa UC2100A-ME series.
+Description: Sparklan 160 ACN WiFi module firmware on moxa UC-8100A-ME series.
 
 Package: uc8100a-me-moxa-firmware
 Architecture: any
