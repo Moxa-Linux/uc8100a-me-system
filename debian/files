@@ -1,8 +1,0 @@
-uc8100a-me-base-system-dbgsym_1.0.0+deb9_armhf.deb debug extra
-uc8100a-me-base-system_1.0.0+deb9_armhf.deb admin required
-uc8100a-me-configs_1.0.0+deb9_all.deb admin required
-uc8100a-me-kernel_1.0.0+deb9_armhf.deb admin required
-uc8100a-me-modules-std_1.0.0+deb9_armhf.deb admin required
-uc8100a-me-moxa-firmware_1.0.0+deb9_armhf.deb admin required
-uc8100a-me-sparklan-firmware_1.0.0+deb9_armhf.deb admin required
-uc8100a-me-system_1.0.0+deb9_armhf.buildinfo admin required

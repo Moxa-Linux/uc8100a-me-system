@@ -1,8 +1,0 @@
-/etc/moxa-configs/configs/moxa-led-control.json
-/etc/moxa-configs/configs/moxa-module-control.json
-/etc/moxa-configs/configs/moxa-push-button.json
-/etc/moxa-configs/configs/moxa-uart-control.json
-/etc/moxa-configs/udev/09-watchdog.rules
-/etc/moxa-configs/udev/10-serial.rules
-/etc/moxa-configs/udev/11-sd-cards-auto-mount.rules
-/etc/moxa-configs/udev/11-usb-auto-mount.rules

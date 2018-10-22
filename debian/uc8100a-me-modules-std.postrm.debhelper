@@ -1,5 +1,0 @@
-# Automatically added by dh_installmodules
-if [ -e /boot/System.map-4.4.0-cip-uc8100a_me+ ]; then
-	depmod -a -F /boot/System.map-4.4.0-cip-uc8100a_me+ 4.4.0-cip-uc8100a_me+ || true
-fi
-# End automatically added section
