@@ -19,7 +19,7 @@ do_expand_rootfs() {
   fdisk $2 <<EOF
 p
 d
-2
+3
 n
 p
 
@@ -31,23 +31,20 @@ EOF
 
 partprobe
 sleep 1
+e2fsck -f $1
+sleep 1
 resize2fs $1
-
 }
 
 # Get rootfile system partition from cmdline. e.g. /dev/mmcblk0p2
-#root_part=$(cat /proc/cmdline)
-#root_part="${root_part##*root=}"
-#root_part="${root_part%% *}"
-
 kernel_cmd=$(cat /proc/cmdline)
 rootfs_node="${kernel_cmd##*root=}"
 rootfs_node="${rootfs_node%% *}"
 root_node="${rootfs_node%%p2}"
 
-# Strip the partition number to fetch sd node e.g. /dev/mmcblk0
-#sd_node="${root_part%%p2}"
-
+# expand for overlayfs p3
+rootfs_node="${root_node}p3"
+# rootfs_node="${root_node}p2"
 do_expand_rootfs $rootfs_node $root_node
 sync
 echo "***************************************************" > /dev/ttyS0
