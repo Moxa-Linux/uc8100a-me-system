@@ -41,34 +41,47 @@ init_network_config () {
 	done
 }
 
-set_configs () {
+get_model_name () {
+	local model_name=$(kversion | awk '{print $1}')
+
+	case ${model_name} in
+		UC-8100A-ME-T-LX)
+			model_name="UC-8100A-ME-LX"
+		;;
+		UC-8100A-ME-T-LX-S)
+			model_name="UC-8100A-ME-LX-S"
+		;;
+		UC-8100A-ME-T-LX-US-S)
+			model_name="UC-8100A-ME-LX-US-S"
+		;;
+		UC-8100A-ME-T-LX-EU-S)
+			model_name="UC-8100A-ME-LX-EU-S"
+		;;
+		UC-8100A-ME-T-LX-AP-S)
+			model_name="UC-8100A-ME-LX-AP-S"
+		;;
+	esac
+
+	echo ${model_name}
+	#echo "UC-8100A-ME-LX"
+}
+
+one_time_setting () {
 	local model_name=${1}
-
-	# copy configs to /etc/moxa-configs
-	cp /etc/moxa-configs/configs/* /etc/moxa-configs/
-	cp /etc/moxa-configs/udev/* /etc/udev/rules.d/
-
-	# disable cellular and wifi related service by default
-	systemctl disable moxa-cellular-utils.service &
-	systemctl disable moxa-cellular-signald.service &
-	systemctl disable moxa-wifi-signald.service &
-	systemctl disable moxa-wifi-utils.service &
 
 	# fix the issue that mount storage fuse-related filesystem via udev might be failed
 	cp -a /lib/systemd/system/systemd-udevd.service /etc/systemd/system/
 	sed -i 's/MountFlags=slave/MountFlags=shared/' /etc/systemd/system/systemd-udevd.service
 
-	# fastboot setting
-	fw_setenv fastboot 1	
-	systemctl disable networking.service &
-	systemctl disable ssh.service &
-	systemctl disable rsyslog.service &
-	systemctl disable ntp.service &
+	depmod -a
+
+	# Enable bootloader to pass the fsck.repair parameter to kernel
+
+	fw_setenv robust 1
+
+
 	systemctl disable apt-daily.service
 	systemctl disable apt-daily-upgrade.service
-	systemctl daemon-reload	&
-
-	depmod "4.4.0-cip-uc8100a_me+"
 
 	init_network_config 2 > /etc/network/interfaces
 
@@ -90,35 +103,28 @@ init_uart_mode () {
 
 initial_wifi () {
 	if dmesg | grep "idProduct=9378" > /dev/null; then
-		systemctl start moxa-wifi-signald.service &
+		systemctl start moxa-wifi-signald.service
 	fi
 }
 
 initial_cellular () {
-		systemctl start moxa-cellular-utils.service &
-		systemctl start moxa-cellular-signald.service &
+		systemctl start moxa-cellular-utils.service
+		systemctl start moxa-cellular-signald.service
 }
 
-check_tpm2 () {
-	if [ -e "/dev/tpm0" ]; then
-		sed -i '/blacklist tpm_spi_tis/d' /etc/modprobe.d/blacklist.conf
-		if systemctl status tpm2-resourcemgr.service | grep "running"; then
-			systemctl enable tpm2-resourcemgr.service
-			systemctl start tpm2-resourcemgr.service
-		fi
-	else
-		if ! grep -q "blacklist tpm_spi_tis" "/etc/modprobe.d/blacklist.conf"; then
-			echo "blacklist tpm_spi_tis" >> "/etc/modprobe.d/blacklist.conf"
-		fi
-		apt-get purge tpm2-tools -y
-		apt-get autoremove -y
-	fi
-}
+initial_tpm2() {
+        local tpm2=$(fw_printenv|grep ^tpm2 | cut -d '=' -f 2)
 
-init_tpm2 () {
-	if [ -e "/dev/tpm0" ]; then
-		systemctl start tpm2-resourcemgr.service
-	fi
+        # check tpm2 is exist or not.
+        if [ X"${tpm2}" == X"1" ]; then
+                # initial tpm2 interrupt pin and reset pin.
+                init_gpio "112" "in"
+                init_gpio "113" "out" "1"
+                init_gpio "113" "out" "0"
+                modprobe tpm
+                modprobe tpm_spi_tis
+                systemctl start tpm2-resourcemgr.service
+        fi
 }
 
 init_gpio () {
@@ -135,87 +141,89 @@ init_gpio () {
         fi
 }
 
-init_gps () {
-	# Try to integrate to cell_mgmt
-	if [ -e "/dev/ttyACM0" ]; then
-		stty -F /dev/ttyACM0 -echo
-	fi
-	if [ -e "/dev/ttyACM1" ]; then
-		stty -F /dev/ttyACM1 -echo
-	fi
-}
-
 power_on_mini_pcie () {
 	# Power => GPIO2_22 => gpio86
 	# Reset => GPIO2_24 => gpio88
 	
+	# The hardware uses an invert gate, hence 1 to turn off.
 	init_gpio 86 out 1
 	# Wait for power fading away
-	sleep 2
+	sleep 1
 
 	# Turn on the power
 	init_gpio 86 out 0
 
-	init_gpio 88 out 1
-	sleep "0.2"
-	init_gpio 88 out 0
+	# The hardware will handle the reset pin ...
+	#init_gpio 88 out 1
+	#sleep "0.2"
+	#init_gpio 88 out 0
 }
 
 uc8100a_me_initial () {
-	local model_name=$(kversion | awk '{print $1}')	
+	local model_name=$(get_model_name)
+
+	ln -sf /etc/moxa-configs/configs/* /etc/moxa-configs/
+        ln -sf /etc/moxa-configs/udev/* /etc/udev/rules.d/
 
 	# only needs to initial one time
 	if [ -f /sbin/expand2fs ]; then
-		check_tpm2
-		set_configs ${model_name}
+		one_time_setting ${model_name}
 		rfs_resize
 	fi
 
-	initial_wifi &
 	power_on_mini_pcie
-	initial_cellular &
-	init_uart_mode 2 &
-	init_tpm2 &
-	init_gps
+	case ${model_name} in
+		UC-8100A-ME-LX)
+			initial_cellular
+			initial_wifi
+			;;
+		UC-8100A-ME-LX-S)
+			initial_cellular
+			initial_wifi
+			initial_tpm2
+			;;
+		UC-8100A-ME-LX-US-S|\
+		UC-8100A-ME-LX-EU-S|\
+		UC-8100A-ME-LX-AP-S)
+			initial_cellular
+			initial_tpm2
+			;;
+		*)
+			echo "unknown model name."
+			;;
+	esac
+
+	init_uart_mode 2
 	# general initial
 	systemctl start networking.service &
 	systemctl start ssh.service &
-	depmod -a
-}
-
-stop_mx-pbtn () {
-	killall -9 mx-pbtn >/dev/null 2>&1
 }
 
 umount_rfs () {
 	umount -f -l /tmp
         umount -f -l /home
+	umount -f -l /media
+	umount -f -l /mnt
+        umount -f -l /etc
+        umount -f -l /root
+        umount -f -l /opt
         umount -f -l /usr
-        umount -f -l /lib
         umount -f -l /bin
         umount -f -l /sbin
-        umount -f -l /etc
+        umount -f -l /lib
         umount -f -l /var
-        umount -f -l /root
         umount -f -l /overlayfs
 }
 
 uc8100a_me_stop () {
-	local model_name=$(kversion | awk '{print $1}')	
-
-	# stop by model
-	systemctl stop moxa-cellular-utils.service &
-	systemctl stop moxa-wifi-utils.service &
-
-	# general stop	
-	systemctl disable networking.service
-	systemctl disable ssh.service	
+	cell_mgmt stop
+	wifi_mgmt stop
+	umount_rfs
 }
 
 case "$1" in
     start)
 	uc8100a_me_initial
-	/bin/factory_test.sh &
         ;;
     restart|reload|force-reload)
         echo "Error: argument '$1' not supported" >&2
@@ -229,4 +237,3 @@ case "$1" in
         exit 3
         ;;
 esac
-
