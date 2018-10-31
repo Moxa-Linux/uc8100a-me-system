@@ -87,8 +87,8 @@ one_time_setting () {
 
 	# fix kernel 4.4 swap memory issue.
 	if ! grep "vm.min_free_kbytes" /etc/sysctl.conf > /dev/null; then
-                echo "vm.min_free_kbytes=16384" >> /etc/sysctl.conf
-        fi
+		echo "vm.min_free_kbytes=16384" >> /etc/sysctl.conf
+	fi
 }
 
 init_uart_mode () {
@@ -113,32 +113,32 @@ initial_cellular () {
 }
 
 initial_tpm2() {
-        local tpm2=$(fw_printenv|grep ^tpm2 | cut -d '=' -f 2)
+	local tpm2=$(fw_printenv|grep ^tpm2 | cut -d '=' -f 2)
 
-        # check tpm2 is exist or not.
-        if [ X"${tpm2}" == X"1" ]; then
-                # initial tpm2 interrupt pin and reset pin.
-                init_gpio "112" "in"
-                init_gpio "113" "out" "1"
-                init_gpio "113" "out" "0"
-                modprobe tpm
-                modprobe tpm_spi_tis
-                systemctl start tpm2-resourcemgr.service
-        fi
+	# check tpm2 is exist or not.
+	if [ X"${tpm2}" == X"1" ]; then
+		# initial tpm2 interrupt pin and reset pin.
+		init_gpio "112" "in"
+		init_gpio "113" "out" "1"
+		init_gpio "113" "out" "0"
+		modprobe tpm
+		modprobe tpm_spi_tis
+		systemctl start tpm2-resourcemgr.service
+	fi
 }
 
 init_gpio () {
-        local gpio=${1}
-        local direction=${2}
-        local value=${3}
+	local gpio=${1}
+	local direction=${2}
+	local value=${3}
 
-        if [ ! -e "/sys/class/gpio/gpio${gpio}" ]; then
-                echo ${gpio} > "/sys/class/gpio/export"
-                echo ${direction} > "/sys/class/gpio/gpio${gpio}/direction"
-        fi
-        if [ X"${direction}" == X"out" ]; then
-                echo ${value} > "/sys/class/gpio/gpio${gpio}/value"
-        fi
+	if [ ! -e "/sys/class/gpio/gpio${gpio}" ]; then
+		echo ${gpio} > "/sys/class/gpio/export"
+		echo ${direction} > "/sys/class/gpio/gpio${gpio}/direction"
+	fi
+	if [ X"${direction}" == X"out" ]; then
+		echo ${value} > "/sys/class/gpio/gpio${gpio}/value"
+	fi
 }
 
 power_on_mini_pcie () {
@@ -163,7 +163,7 @@ uc8100a_me_initial () {
 	local model_name=$(get_model_name)
 
 	ln -sf /etc/moxa-configs/configs/* /etc/moxa-configs/
-        ln -sf /etc/moxa-configs/udev/* /etc/udev/rules.d/
+	ln -sf /etc/moxa-configs/udev/* /etc/udev/rules.d/
 
 	# only needs to initial one time
 	if [ -f /sbin/expand2fs ]; then
@@ -201,18 +201,18 @@ uc8100a_me_initial () {
 
 umount_rfs () {
 	umount -f -l /tmp
-        umount -f -l /home
+	umount -f -l /home
 	umount -f -l /media
 	umount -f -l /mnt
-        umount -f -l /etc
-        umount -f -l /root
-        umount -f -l /opt
-        umount -f -l /usr
-        umount -f -l /bin
-        umount -f -l /sbin
-        umount -f -l /lib
-        umount -f -l /var
-        umount -f -l /overlayfs
+	umount -f -l /etc
+	umount -f -l /root
+	umount -f -l /opt
+	umount -f -l /usr
+	umount -f -l /bin
+	umount -f -l /sbin
+	umount -f -l /lib
+	umount -f -l /var
+	umount -f -l /overlayfs
 }
 
 uc8100a_me_stop () {
@@ -224,16 +224,16 @@ uc8100a_me_stop () {
 case "$1" in
     start)
 	uc8100a_me_initial
-        ;;
+	;;
     restart|reload|force-reload)
-        echo "Error: argument '$1' not supported" >&2
-        exit 3
-        ;;
+	echo "Error: argument '$1' not supported" >&2
+	exit 3
+	;;
     stop)
 	uc8100a_me_stop
-        ;;
+	;;
     *)
-        echo "Usage: $0 start|stop" >&2
-        exit 3
-        ;;
+	echo "Usage: $0 start|stop" >&2
+	exit 3
+	;;
 esac
