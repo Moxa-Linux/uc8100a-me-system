@@ -79,7 +79,6 @@ one_time_setting () {
 
 	fw_setenv robust 1
 
-
 	systemctl disable apt-daily.service
 	systemctl disable apt-daily-upgrade.service
 
@@ -195,8 +194,8 @@ uc8100a_me_initial () {
 
 	init_uart_mode 2
 	# general initial
-	systemctl start networking.service &
-	systemctl start ssh.service &
+	systemctl start networking.service
+	systemctl start ssh.service
 }
 
 umount_rfs () {
