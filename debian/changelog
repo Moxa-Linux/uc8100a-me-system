@@ -1,3 +1,19 @@
+uc8100a-me-system (1.0.2+deb9) stretch; urgency=medium
+
+  * refactor: initial the networking and ssh in foreground
+  * refactor: replace the white space with tab
+  * fix: change the detection way of tpm2
+  * fix: turn off the debug message on kernel postinst
+  * feat: modified expand2fs to support overlayfs version
+  * feat: support sparkLan 160 ACN WIFI module
+  * cleanup: update the base-system folder
+  * cleanup: remove the modules with kernel name having plus sign
+  * refactor: remove the empty line for moxa-push-button.json
+  * cleanup: update the debian folder
+  * modified control file
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Wed, 31 Oct 2018 17:49:33 +0800
+
 uc8100a-me-system (1.0.1+deb9) stretch; urgency=medium
 
   * first commit
