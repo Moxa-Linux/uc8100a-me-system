@@ -140,7 +140,7 @@ init_gpio () {
 	fi
 }
 
-power_on_minipcie () {
+power_on_mini_pcie () {
 	# The GPIO pin here has an invert gate, hence
 	# 1 => off
 	# 0 => on
