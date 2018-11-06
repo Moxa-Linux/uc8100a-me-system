@@ -140,22 +140,23 @@ init_gpio () {
 	fi
 }
 
-power_on_mini_pcie () {
+power_on_minipcie () {
+	# The GPIO pin here has an invert gate, hence
+	# 1 => off
+	# 0 => on
 	# Power => GPIO2_22 => gpio86
 	# Reset => GPIO2_24 => gpio88
 	
-	# The hardware uses an invert gate, hence 1 to turn off.
 	init_gpio 86 out 1
 	# Wait for power fading away
-	sleep 1
-
-	# Turn on the power
+	sleep "0.5"
 	init_gpio 86 out 0
 
-	# The hardware will handle the reset pin ...
-	#init_gpio 88 out 1
-	#sleep "0.2"
-	#init_gpio 88 out 0
+	# Turning off the reset pin after the power turning on
+	# makes the level droping quickly.
+	init_gpio 88 out 1
+	sleep "0.5"
+	init_gpio 88 out 0
 }
 
 uc8100a_me_initial () {
