@@ -111,7 +111,7 @@ initial_cellular () {
 		systemctl start moxa-cellular-signald.service
 }
 
-initial_tpm2() {
+initial_tpm2 () {
 	local tpm2=$(fw_printenv|grep ^tpm2 | cut -d '=' -f 2)
 
 	# check tpm2 is exist or not.
@@ -146,7 +146,7 @@ power_on_minipcie () {
 	# 0 => on
 	# Power => GPIO2_22 => gpio86
 	# Reset => GPIO2_24 => gpio88
-	
+
 	init_gpio 86 out 1
 	# Wait for power fading away
 	sleep "0.5"
