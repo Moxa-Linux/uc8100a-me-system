@@ -180,13 +180,11 @@ uc8100a_me_initial () {
 		UC-8100A-ME-LX-S)
 			initial_cellular
 			initial_wifi
-			initial_tpm2
 			;;
 		UC-8100A-ME-LX-US-S|\
 		UC-8100A-ME-LX-EU-S|\
 		UC-8100A-ME-LX-AP-S)
 			initial_cellular
-			initial_tpm2
 			;;
 		*)
 			echo "unknown model name."
@@ -194,6 +192,7 @@ uc8100a_me_initial () {
 	esac
 
 	init_uart_mode 2
+	initial_tpm2
 	# general initial
 	systemctl start networking.service
 	systemctl start ssh.service
