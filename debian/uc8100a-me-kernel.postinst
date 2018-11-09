@@ -19,7 +19,15 @@ set -e
 
 case "$1" in
     configure)
+	BASE_KERNEL=/overlayfs/base
 	TMP_FS=/var/tmp/p1
+        ITB="am335x-moxa-uc-8100a-me.itb"
+        ITB_PATH=${TMP_FS}/itb/${ITB}
+
+	if [ ! -d ${BASE_KERNEL} ]; then
+		mkdir -p ${BASE_KERNEL}
+		cp ${ITB_PATH} ${BASE_KERNEL}/${ITB}
+	fi
 
 	# Check the environment is in VM or physical target machine.
 	if cat /proc/cmdline | grep mmcblk > /dev/null; then
