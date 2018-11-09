@@ -220,7 +220,7 @@ stop_wireless () {
 	if lsmod | grep "^wlan" -q; then
 		rmmod wlan
         fi
-        mx-mod-ctl -p off 1
+	init_gpio 86 out 1
 }
 
 uc8100a_me_stop () {
