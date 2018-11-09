@@ -29,6 +29,11 @@ case "$1" in
 		cp ${ITB_PATH} ${BASE_KERNEL}/${ITB}
 	fi
 
+	if [ -f ${ITB_PATH} ]; then
+		mv ${ITB_PATH} ${TMP_FS}/${ITB}
+		rm -rf ${TMP_FS}/itb/
+	fi
+
 	# Check the environment is in VM or physical target machine.
 	if cat /proc/cmdline | grep mmcblk > /dev/null; then
 		if [ -d "${TMP_FS}"  ]; then
