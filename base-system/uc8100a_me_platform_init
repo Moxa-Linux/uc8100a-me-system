@@ -214,9 +214,17 @@ umount_rfs () {
 	umount -f -l /overlayfs
 }
 
-uc8100a_me_stop () {
+stop_wireless () {
 	cell_mgmt stop
 	wifi_mgmt stop
+	if lsmod | grep "^wlan" -q; then
+		rmmod wlan
+        fi
+        mx-mod-ctl -p off 1
+}
+
+uc8100a_me_stop () {
+	stop_wireless
 	umount_rfs
 }
 
