@@ -7,9 +7,9 @@
 			"NUM_OF_LEDS_PER_GROUP": 3,
 			"PATHS": [
 				[
-					 "UC8100A_ME:RED:SGN1",
-					 "UC8100A_ME:YELLOW:SGN2",
-					 "UC8100A_ME:GREEN:SGN3"
+					 "UC-8100A-ME:RED:SGN1",
+					 "UC-8100A-ME:YELLOW:SGN2",
+					 "UC-8100A-ME:GREEN:SGN3"
 				]
 			]
 		},
@@ -19,9 +19,9 @@
 			"NUM_OF_LEDS_PER_GROUP": 3,
 			"PATHS": [
 				[
-					"UC8100A_ME:RED:DIA1",
-					"UC8100A_ME:YELLOW:DIA2",
-					"UC8100A_ME:GREEN:DIA3"
+					"UC-8100A-ME:RED:DIA1",
+					"UC-8100A-ME:YELLOW:DIA2",
+					"UC-8100A-ME:GREEN:DIA3"
 				]
 			]
 		}
