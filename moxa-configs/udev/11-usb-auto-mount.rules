@@ -1,7 +1,7 @@
 KERNEL!="sd[a-z]*", GOTO="auto_mount_end"
 
 # on USB LED
-ACTION=="add", KERNELS=="usb2", SUBSYSTEMS=="usb", RUN+="/bin/bash -c '/bin/echo 1 > /sys/class/leds/UC8100A_ME\:USB/brightness'"
+ACTION=="add", KERNELS=="usb2", SUBSYSTEMS=="usb", RUN+="/bin/bash -c '/bin/echo 1 > /sys/class/leds/UC-8100A-ME\:GREEN\:USB/brightness'"
 ACTION=="add", PROGRAM!="/sbin/blkid %N", GOTO="auto_mount_end"
 # Set environment
 ACTION=="add", IMPORT{program}="/sbin/blkid -o udev -p -s TYPE -s LABEL %N"
@@ -25,7 +25,7 @@ ACTION=="add", ENV{dir_name}=="", ENV{dir_name}="usb-%k"
 ACTION=="add", ENV{dir_name}!="", RUN+="/bin/mkdir -p '/media/%E{dir_name}'", RUN+="/bin/mount -o %E{mount_options} /dev/%k '/media/%E{dir_name}'"
 
 ACTION=="remove", ENV{dir_name}!="", RUN+="/bin/umount -l '/media/%E{dir_name}'", RUN+="/bin/rmdir '/media/%E{dir_name}'"
-ACTION=="remove", KERNELS=="usb2", SUBSYSTEMS=="usb", RUN+="/bin/bash -c '/bin/echo 0 > /sys/class/leds/UC8100A_ME\:USB/brightness'"
+ACTION=="remove", KERNELS=="usb2", SUBSYSTEMS=="usb", RUN+="/bin/bash -c '/bin/echo 0 > /sys/class/leds/UC-8100A-ME\:GREEN\:USB/brightness'"
 
 LABEL="auto_mount_end"
 

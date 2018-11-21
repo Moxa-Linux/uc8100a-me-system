@@ -4,13 +4,13 @@ KERNEL!="mmcblk[0-9]p[0-9]", GOTO="sd_cards_auto_mount_end"
 ACTION=="add", ENV{mount_options}="relatime"
 # Filesystem specific options
 # turn on SD LED
-ACTION=="add", KERNELS=="mmc0", RUN+="/bin/bash -c '/bin/echo 1 > /sys/class/leds/UC8100A_ME\:SD/brightness'"
+ACTION=="add", KERNELS=="mmc0", RUN+="/bin/bash -c '/bin/echo 1 > /sys/class/leds/UC-8100A-ME\:GREEN\:SD/brightness'"
 ACTION=="add", IMPORT{program}="/sbin/blkid -o udev -p %N"
 ACTION=="add", ENV{ID_FS_TYPE}=="vfat|ntfs", ENV{mount_options}="$env{mount_options},utf8,gid=100,umask=002"
 ACTION=="add", RUN+="/sbin/chk_fs '%k' '$env{mount_options}'"
 
 ACTION=="remove", RUN+="/bin/umount -l /media/sd-%k", RUN+="/bin/rm -rf /media/sd-%k"
-ACTION=="remove", KERNELS=="mmc0", RUN+="/bin/bash -c '/bin/echo 0 > /sys/class/leds/UC8100A_ME\:SD/brightness '"
+ACTION=="remove", KERNELS=="mmc0", RUN+="/bin/bash -c '/bin/echo 0 > /sys/class/leds/UC-8100A-ME\:GREEN\:SD/brightness'"
 
 LABEL="sd_cards_auto_mount_end"
 
