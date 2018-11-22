@@ -46,19 +46,16 @@ get_model_name () {
 
 	case ${model_name} in
 		UC-8112A-ME-T-LX)
-			model_name="UC-8100A-ME-LX"
+			model_name="UC-8100A-ME-T-LX"
 		;;
-		UC-8112A-ME-T-LX-S)
-			model_name="UC-8100A-ME-LX-S"
+		UC-8112A-ME-T-LX-US)
+			model_name="UC-8100A-ME-T-LX-US"
 		;;
-		UC-8112A-ME-T-LX-US-S)
-			model_name="UC-8100A-ME-LX-US-S"
+		UC-8112A-ME-T-LX-EU)
+			model_name="UC-8100A-ME-T-LX-EU"
 		;;
-		UC-8112A-ME-T-LX-EU-S)
-			model_name="UC-8100A-ME-LX-EU-S"
-		;;
-		UC-8112A-ME-T-LX-AP-S)
-			model_name="UC-8100A-ME-LX-AP-S"
+		UC-8112A-ME-T-LX-AP)
+			model_name="UC-8100A-ME-T-LX-AP"
 		;;
 	esac
 
@@ -173,17 +170,13 @@ uc8100a_me_initial () {
 
 	power_on_mini_pcie
 	case ${model_name} in
-		UC-8100A-ME-LX)
+		UC-8100A-ME-T-LX)
 			initial_cellular
 			initial_wifi
 			;;
-		UC-8100A-ME-LX-S)
-			initial_cellular
-			initial_wifi
-			;;
-		UC-8100A-ME-LX-US-S|\
-		UC-8100A-ME-LX-EU-S|\
-		UC-8100A-ME-LX-AP-S)
+		UC-8100A-ME-T-LX-US|\
+		UC-8100A-ME-T-LX-EU|\
+		UC-8100A-ME-T-LX-AP)
 			initial_cellular
 			;;
 		*)
