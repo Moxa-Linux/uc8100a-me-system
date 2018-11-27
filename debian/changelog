@@ -1,3 +1,12 @@
+uc8100a-me-system (1.1.1+deb9) stretch; urgency=medium
+
+  * feat: update the modules and kernel
+  * fix: modify the model name due to the change of SRS
+  * fix: correct the LED path in moxa-led-control.json
+  * fix: correct the LED path for SD and USB
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Thu, 22 Nov 2018 17:23:30 +0800
+
 uc8100a-me-system (1.1.0+deb9) stretch; urgency=medium
 
   * fix: correct the model name
