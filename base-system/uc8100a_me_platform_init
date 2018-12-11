@@ -144,15 +144,23 @@ power_on_mini_pcie () {
 	# Power => GPIO2_22 => gpio86
 	# Reset => GPIO2_24 => gpio88
 
-	init_gpio 86 out 1
-	# Wait for power fading away
-	sleep "0.5"
+	local PWR_PIN=86
+	local RST_PIN=88
+
+	# The defualt power status is high (OFF in module side)
+
+	# The defualt reset status is low (ON in module side) due to
+	# the hardware limitation
+
+	# Turn RST_PIN to high (OFF in module side)
+	init_gpio 88 out 1
+
+	# Turn PWR_PIN to low (ON in module side)
 	init_gpio 86 out 0
 
-	# Turning off the reset pin after the power turning on
-	# makes the level droping quickly.
-	init_gpio 88 out 1
+	# Wait 0.5 seconds to start up the module
 	sleep "0.5"
+	# Turn RST_PIN to low (ON in module side)
 	init_gpio 88 out 0
 }
 
