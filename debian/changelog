@@ -1,3 +1,9 @@
+uc8100a-me-system (1.1.2+deb9) stretch; urgency=medium
+
+  * fix: modify the pcie power initial flow
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Tue, 11 Dec 2018 14:42:31 +0800
+
 uc8100a-me-system (1.1.1+deb9) stretch; urgency=medium
 
   * feat: update the modules and kernel
