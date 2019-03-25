@@ -1,0 +1,79 @@
+#!/bin/bash
+set -e
+
+group_idx=(0 0)
+action=""
+all_led=""
+
+get_group_idx() {
+	case "$1" in
+		RED)
+			group_idx=(1 1)
+			;;
+		YELLOW)
+			group_idx=(1 2)
+			;;
+		GREEN)
+			group_idx=(1 3)
+			;;
+		ALL)
+			all_led="TRUE"
+			;;
+		*)
+			echo "LED index error"
+			exit -1
+			;;
+	esac
+}
+
+get_action() {
+	case "$1" in
+		0)
+			action="off"
+			;;
+		1)
+			action="on"
+			;;
+		2)
+			action="blink"
+			;;
+		*)
+			echo "LED operation error"
+			exit -1
+	esac
+}
+
+if [ $# == 4 ];then
+	option=$1
+        operation=$2
+        group=$3
+        index=$4
+
+        if [ $index -gt 3 ]; then
+                exit 1
+        fi
+
+        #light_sig_led
+	 /sbin/mx-led-ctl -s $group -i $index $operation
+        exit 0
+
+elif [ $# != 2 ]; then
+	exit
+fi
+
+get_group_idx $1
+get_action $2
+
+if [ X"$all_led" == X"TRUE" ]; then
+	get_group_idx RED
+	/sbin/mx-led-ctl -p ${group_idx[0]} -i ${group_idx[1]} $action
+	get_group_idx YELLOW
+	/sbin/mx-led-ctl -p ${group_idx[0]} -i ${group_idx[1]} $action
+	get_group_idx GREEN
+	/sbin/mx-led-ctl -p ${group_idx[0]} -i ${group_idx[1]} $action
+else
+
+	/sbin/mx-led-ctl -p ${group_idx[0]} -i ${group_idx[1]} $action
+fi
+
+exit 0

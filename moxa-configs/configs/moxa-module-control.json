@@ -1,0 +1,14 @@
+{
+	"ENABLE_MODE":"0",
+	"CONFIG_VERSION":"1.0.0",
+	"NUM_OF_MODULE_SLOT":1,
+	"NUM_OF_SIM_SLOT":1,
+	"POWER_PIN":[105],
+	"POWER_ACT":"1",
+	"RESET_PIN":[83],
+	"SIM_SLOT_PIN":[],
+	"SLOT_NAME":[1],
+	"PRODUCT_PATH":[
+		"/sys/bus/usb/devices/1-1/idProduct"
+	]
+}

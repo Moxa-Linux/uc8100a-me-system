@@ -1,0 +1,13 @@
+[Unit]
+Description=Moxa UC8100A-ME series initial setting
+After=systemd-logind.service
+Before=rc.local.service moxa-pbtn.service
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/uc8100a_me_platform_init start
+ExecStop=/sbin/uc8100a_me_platform_init stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target poweroff.target
