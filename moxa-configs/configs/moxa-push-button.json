@@ -1,0 +1,94 @@
+{
+	"CONFIG_VERSION":"1.1.0",
+
+	"NUM_OF_ALL_BUTTONS": 1,
+
+	"BUTTON_TYPES": [
+		{
+			"TYPE": "SYSTEM",
+			"NUM_OF_BUTTONS": 1,
+			"PATHS": [
+				"/dev/input/event0"
+			]
+		},
+		{
+			"TYPE": "USER",
+			"NUM_OF_BUTTONS": 0,
+			"PATHS": []
+		}
+	],
+
+	"DEFAULT_ACTIONS": [
+		{
+			"PRESS_ACTION": [
+				{
+					"LED_GROUP": 1,
+					"LED_INDEX": 1,
+					"LED_STATE": "blink",
+					"MESSAGE": "Button Pressed",
+					"EXEC_CMD": ""
+				}
+			],
+			"RELEASE_ACTION": [
+				{
+					"SEC": 9,
+					"LED_GROUP": 1,
+					"LED_INDEX": 3,
+					"LED_STATE": "off",
+					"MESSAGE": "Release Button over 9s - Do nothing",
+					"EXEC_CMD": ""
+				},
+				{
+					"SEC": 7,
+					"LED_GROUP": 1,
+					"LED_INDEX": 3,
+					"LED_STATE": "off",
+					"MESSAGE": "Release Button in 7~9s - ENTER reset to default",
+					"EXEC_CMD": "/sbin/mx-set-def"
+				},
+				{
+					"SEC": 1,
+					"LED_GROUP": 1,
+					"LED_INDEX": 1,
+					"LED_STATE": "off",
+					"MESSAGE": "Release Button in 1~7s - Do nothing",
+					"EXEC_CMD": ""
+				},
+				{
+					"SEC": 0,
+					"LED_GROUP": 1,
+					"LED_INDEX": 1,
+					"LED_STATE": "off",
+					"MESSAGE": "Release Button within 1s - Reboot",
+					"EXEC_CMD": "reboot"
+				}
+			],
+			"HOLD_ACTION": [
+				{
+					"SEC": 9,
+					"LED_GROUP": 1,
+					"LED_INDEX": 1,
+					"LED_STATE": "off",
+					"MESSAGE": "Push Button over 9s",
+					"EXEC_CMD": ""
+				},
+				{
+					"SEC": 7,
+					"LED_GROUP": 1,
+					"LED_INDEX": 1,
+					"LED_STATE": "on",
+					"MESSAGE": "Push Button over 7s",
+					"EXEC_CMD": ""
+				},
+				{
+					"SEC": 1,
+					"LED_GROUP": 1,
+					"LED_INDEX": 1,
+					"LED_STATE": "blink",
+					"MESSAGE": "Push Button over 1s",
+					"EXEC_CMD": ""
+				}
+			]
+		}
+	]
+}

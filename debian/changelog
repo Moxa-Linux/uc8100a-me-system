@@ -1,0 +1,58 @@
+uc8100a-me-system (1.1.2+deb9) stretch; urgency=medium
+
+  * fix: modify the pcie power initial flow
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Tue, 11 Dec 2018 14:42:31 +0800
+
+uc8100a-me-system (1.1.1+deb9) stretch; urgency=medium
+
+  * feat: update the modules and kernel
+  * fix: modify the model name due to the change of SRS
+  * fix: correct the LED path in moxa-led-control.json
+  * fix: correct the LED path for SD and USB
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Thu, 22 Nov 2018 17:23:30 +0800
+
+uc8100a-me-system (1.1.0+deb9) stretch; urgency=medium
+
+  * fix: correct the model name
+  * fix: change the kernel install folder
+  * feat: backup the base version kernel
+  * fix: modified the module power off command
+  * fix: the system hangs in reboot due to the wifi module
+  * feat: add udev rule for ublox gps port
+  * refactor: correct the function name
+  * refactor: style align
+  * refactor: the tpm initial flow depends on the bootloader env value
+  * fix: correct the power sequence for the mini-pcie
+  * fix: change the button action
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Fri, 09 Nov 2018 16:00:38 +0800
+
+uc8100a-me-system (1.0.2+deb9) stretch; urgency=medium
+
+  * refactor: initial the networking and ssh in foreground
+  * refactor: replace the white space with tab
+  * fix: change the detection way of tpm2
+  * fix: turn off the debug message on kernel postinst
+  * feat: modified expand2fs to support overlayfs version
+  * feat: support sparkLan 160 ACN WIFI module
+  * cleanup: update the base-system folder
+  * cleanup: remove the modules with kernel name having plus sign
+  * refactor: remove the empty line for moxa-push-button.json
+  * cleanup: update the debian folder
+  * modified control file
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Wed, 31 Oct 2018 17:49:33 +0800
+
+uc8100a-me-system (1.0.1+deb9) stretch; urgency=medium
+
+  * first commit
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Tue, 04 Sep 2018 22:48:25 +0800
+
+uc8100a-me-system (1.0.0+deb9) stretch; urgency=low
+
+  * Initial Release.
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Mon, 30 Jan 2017 12:47:32 +0800

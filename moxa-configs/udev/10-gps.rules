@@ -1,0 +1,1 @@
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a8", ACTION=="add", RUN+="/bin/bash -c '/bin/stty -F /dev/%k -echo'"

@@ -1,0 +1,36 @@
+#!/bin/bash
+
+usage()
+{
+	echo "Usage: $0 device-node [interface-mode]"
+	echo "device-node - /dev/ttyM0 ~ /dev/ttyM1"
+	echo "interface-mode :"
+	echo "          none - to view now setting"
+	echo "          0 - set to RS232 mode"
+	echo "          1 - set to RS485-2W mode"
+	echo "          2 - set to RS422/RS485-4W mode"
+	echo "ex: get UART#1 current mode"
+	echo "    => setinterface /dev/ttyM0 "
+	echo "ex: set UART#1 to RS232 mode"
+	echo "    => setinterface /dev/ttyM0 0"
+}
+
+uart_idx=0
+
+dev_node_to_idx() {
+	if [[ "$1" =~ "/dev/ttyM*" ]]; then
+		usage
+		exit 1
+	fi
+	uart_idx=${1##/dev/ttyM}
+}
+
+dev_node_to_idx $1
+
+if [ $# -eq 2 ]; then
+	mx-uart-ctl -p $uart_idx -m $2
+elif [ $# -eq 1 ]; then
+	mx-uart-ctl -p $uart_idx
+else
+	usage
+fi
