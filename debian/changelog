@@ -1,3 +1,16 @@
+uc8100a-me-system (1.1.3+deb9) stretch; urgency=medium
+
+  * fix: network setting is handled by build tool
+  * fix: adjust the service placement
+  * fix: modify udev rule for serial port
+  * fix: remove unneeded code
+  * fix: correct the service name
+  * fix: rc.local should be handled by systemd
+  * fix: remove unnecessary files
+  * fix: correct dependenies
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Tue, 27 Aug 2019 15:45:46 +0800
+
 uc8100a-me-system (1.1.2+deb9) stretch; urgency=medium
 
   * fix: modify the pcie power initial flow
