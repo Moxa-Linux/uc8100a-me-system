@@ -194,9 +194,6 @@ uc8100a_me_initial () {
 
 	init_uart_mode 2
 	initial_tpm2
-	# general initial
-	systemctl start networking.service
-	systemctl start ssh.service
 }
 
 umount_rfs () {
