@@ -13,7 +13,6 @@ Depends: ${misc:Depends},
          uc8100a-me-modules-std (= ${binary:Version}),
          uc8100a-me-configs (= ${binary:Version}),
          uc8100a-me-sparklan-firmware (= ${binary:Version}),
-         uc8100a-me-moxa-firmware (= ${binary:Version}),
          moxa-led-control (>= 1.1.0+deb9),
          moxa-push-button (>= 1.1.2+deb9),
          moxa-uart-control (>= 1.1.3+deb9),
@@ -52,9 +51,3 @@ Package: uc8100a-me-sparklan-firmware
 Architecture: any
 Depends: ${misc:Depends},
 Description: Sparklan 160 ACN WiFi module firmware on moxa UC-8100A-ME series.
-
-Package: uc8100a-me-moxa-firmware
-Architecture: any
-Depends: ${misc:Depends},
-Description: UART firmware on moxa UC8100A-ME series.
-
