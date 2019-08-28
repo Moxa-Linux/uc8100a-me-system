@@ -87,16 +87,6 @@ one_time_setting () {
 	fi
 }
 
-init_uart_mode () {
-	local num_of_node=${1}
-	local i=""
-
-	for ((i=0; i<${num_of_node}; i++))
-	do
-		mx-uart-ctl -p ${i} -m 0
-	done
-}
-
 initial_wifi () {
 	if dmesg | grep "idProduct=9378" > /dev/null; then
 		systemctl start moxa-wifi-signald.service
@@ -192,7 +182,6 @@ uc8100a_me_initial () {
 			;;
 	esac
 
-	init_uart_mode 2
 	initial_tpm2
 }
 
