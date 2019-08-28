@@ -1,7 +1,7 @@
 [Unit]
 Description=Moxa UC8100A-ME series initial setting
 After=systemd-logind.service
-Before=rc.local.service moxa-pbtn.service
+Before=rc-local.service moxa-push-button.service
 
 [Service]
 Type=oneshot

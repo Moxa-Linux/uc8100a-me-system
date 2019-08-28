@@ -16,31 +16,6 @@ rfs_resize () {
 	/sbin/reboot -d -f -i
 }
 
-init_network_config () {
-	local num_of_eth="${1}"
-
-	echo "# interfaces(5) file used by ifup(8) and ifdown(8)"
-	echo "# Include files from /etc/network/interfaces.d:"
-	echo "source-directory /etc/network/interfaces.d"
-	echo -n "auto"
-
-	for (( i=0 ; i<${num_of_eth}; i++ ))
-	do
-		echo -n " eth${i}"
-	done
-	echo " lo"
-	echo "iface lo inet loopback"
-
-	for (( i=0 ; i<${num_of_eth}; i++ ))
-	do
-		echo "iface eth${i} inet static"
-		echo "        address 192.168.$((${i} + 3)).127"
-		echo "        network 192.168.$((${i} + 3)).0"
-		echo "        netmask 255.255.255.0"
-		echo "        broadcast 192.168.$((${i} + 3)).255"
-	done
-}
-
 get_model_name () {
 	local model_name=$(kversion | awk '{print $1}')
 
@@ -79,22 +54,10 @@ one_time_setting () {
 	systemctl disable apt-daily.service
 	systemctl disable apt-daily-upgrade.service
 
-	init_network_config 2 > /etc/network/interfaces
-
 	# fix kernel 4.4 swap memory issue.
 	if ! grep "vm.min_free_kbytes" /etc/sysctl.conf > /dev/null; then
 		echo "vm.min_free_kbytes=16384" >> /etc/sysctl.conf
 	fi
-}
-
-init_uart_mode () {
-	local num_of_node=${1}
-	local i=""
-
-	for ((i=0; i<${num_of_node}; i++))
-	do
-		mx-uart-ctl -p ${i} -m 0
-	done
 }
 
 initial_wifi () {
@@ -192,11 +155,7 @@ uc8100a_me_initial () {
 			;;
 	esac
 
-	init_uart_mode 2
 	initial_tpm2
-	# general initial
-	systemctl start networking.service
-	systemctl start ssh.service
 }
 
 umount_rfs () {
