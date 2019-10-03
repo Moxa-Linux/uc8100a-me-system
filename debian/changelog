@@ -1,3 +1,9 @@
+uc8100a-me-system (1.1.5+deb9) stretch; urgency=medium
+
+  * fix: update moxa-cellular-utils dependency version
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Thu, 03 Oct 2019 17:12:10 +0800
+
 uc8100a-me-system (1.1.4+deb9) stretch; urgency=medium
 
   * fix: update dependency version
