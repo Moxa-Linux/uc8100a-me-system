@@ -1,3 +1,9 @@
+uc8100a-me-system (1.1.6+deb9) stretch; urgency=medium
+
+  * fix: update moxa-ublox-config-utils dependency version
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Fri, 04 Oct 2019 17:06:22 +0800
+
 uc8100a-me-system (1.1.5+deb9) stretch; urgency=medium
 
   * fix: update moxa-cellular-utils dependency version
