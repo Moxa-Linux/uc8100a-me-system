@@ -1,3 +1,10 @@
+uc8100a-me-system (1.1.7+deb9) stretch; urgency=medium
+
+  * fix: update moxa-ublox-config-utils dependency version
+  * add moxa-buzzer-control.json
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Thu, 17 Oct 2019 13:04:53 +0800
+
 uc8100a-me-system (1.1.6+deb9) stretch; urgency=medium
 
   * fix: update moxa-ublox-config-utils dependency version
