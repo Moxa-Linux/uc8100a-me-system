@@ -1,3 +1,9 @@
+uc8100a-me-system (1.1.9+deb9) stretch; urgency=medium
+
+  * fix: update dependencies
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Thu, 24 Oct 2019 17:53:48 +0800
+
 uc8100a-me-system (1.1.8+deb9) stretch; urgency=medium
 
   * fix: update dependencies
