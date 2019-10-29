@@ -1,0 +1,2 @@
+KERNEL=="ttyS1", SUBSYSTEM=="tty", ACTION=="add", SYMLINK+="ttyM0", RUN+="/sbin/mx-uart-ctl -p 0 -m 0"
+KERNEL=="ttyS2", SUBSYSTEM=="tty", ACTION=="add", SYMLINK+="ttyM1", RUN+="/sbin/mx-uart-ctl -p 1 -m 0"
