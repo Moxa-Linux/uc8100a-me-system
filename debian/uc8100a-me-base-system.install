@@ -1,0 +1,6 @@
+base-system/kversion /bin
+base-system/expand2fs /sbin
+base-system/uc8100a_me_platform_init /sbin
+base-system/blacklist.conf /etc/modprobe.d
+base-system/watchdog.conf /etc/modprobe.d
+base-system/fw_env.config /etc
