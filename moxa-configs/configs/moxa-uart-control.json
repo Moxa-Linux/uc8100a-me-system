@@ -2,7 +2,7 @@
 	"CONFIG_VERSION":"1.1.0",
 	"METHOD": "GPIO",
 	"NUM_OF_UART_PORTS": 2,
-	"UART_PORT": [
+	"UART_PORTS": [
 		"/dev/ttyM0",
 		"/dev/ttyM1"
 	],

@@ -6,14 +6,15 @@
 # Wes Huang (Wes.Huang@moxa.com)
 
 # source code name
-FOLDER=base-system
-SNAME=kversion
-VERSION=$(ver)
+MOXA_VERSION_CFG=moxa-configs/moxa-version.conf
+PKG_FW_VERSION ?= develop
+PKG_BUILDDATE ?= $(shell date +%y%m%d%H)
 
-all: source
+all: moxa-ver-cfg
 
-source:
-	cd $(FOLDER)/$(SNAME); make ver=$(VERSION);
+moxa-ver-cfg:
+	@echo "FW_VERSION=$(PKG_FW_VERSION)" > $(MOXA_VERSION_CFG)
+	@echo "BUILDDATE=$(PKG_BUILDDATE)" >> $(MOXA_VERSION_CFG)
 
 clean:
-	cd $(FOLDER)/$(SNAME); make clean;
+	rm -f $(MOXA_VERSION_CFG)
