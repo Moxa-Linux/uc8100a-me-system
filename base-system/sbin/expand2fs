@@ -1,25 +1,34 @@
 #!/bin/bash
-#       Copyright (C) MOXA Inc. All rights reserved.
-#       Copyright (C) 2014-2015  Lock Lin <Lock.Lin@moxa.com>
 #
-#       This software is distributed under the terms of the
-#       MOXA License.  See the file COPYING-MOXA for details.
+# SPDX-License-Identifier: Apache-2.0
 #
-#       expand2fs
-#               Expand the size of rootfilesystem when first boot.
+# Name:
+#       MOXA expand2fs Utility
 #
+# Description:
+#       Expand the size of rootfilesystem partition when first boot
+#
+# Copyright (C) Moxa, Inc. All rights reserved.
+# Copyright (C) 2014-2015	SZ Lin 		<SZ.Lin@moxa.com>
+# Copyright (C) 2019		Wes Huang	<Wes.Huang@moxa.com>
 
-do_expand_rootfs() {
-  # Get the starting offset of the root partition
-  PART_START=$(fdisk -l $2 | grep ${1} | awk '{printf $2 }')
-  [ "$PART_START" ] || return 1
-  mount -o remount,rw /
-  # Return value will likely be error for fdisk as it fails to reload the
-  # partition table because the root fs is mounted
-  fdisk $2 <<EOF
+EXPAND_PARTITION_NUMBER="3"
+
+do_expand_partition() {
+	# Get the starting offset of the root partition
+	local expand_partition_node=${1}
+	local root_device_node=${2}
+	local partition_start
+
+	partition_start=$(fdisk -l "${root_device_node}" | grep "${expand_partition_node}" | awk '{printf $2 }')
+	[ "${partition_start}" ] || return 1
+	mount -o remount,rw /
+	# Return value will likely be error for fdisk as it fails to reload the
+	# partition table because the root fs is mounted
+	fdisk ${root_device_node} <<EOF
 p
 d
-3
+${EXPAND_PARTITION_NUMBER}
 n
 p
 
@@ -29,25 +38,38 @@ p
 w
 EOF
 
-partprobe
-sleep 1
-e2fsck -f $1
-sleep 1
-resize2fs $1
+	partprobe
+	sleep 1
+	e2fsck -f ${expand_partition_node}
+	sleep 1
+	resize2fs ${expand_partition_node}
+	sleep 1
 }
 
-# Get rootfile system partition from cmdline. e.g. /dev/mmcblk0p2
-kernel_cmd=$(cat /proc/cmdline)
-rootfs_node="${kernel_cmd##*root=}"
-rootfs_node="${rootfs_node%% *}"
-root_node="${rootfs_node%%p2}"
+success_message() {
+	echo "***************************************************"
+	echo "*  The rootfilesystem is expanded successfully !  *"
+	echo "*      This device is going to reboot NOW !!!     *"
+	echo "***************************************************"
+} > "/dev/console"
 
-# expand for overlayfs p3
-rootfs_node="${root_node}p3"
-# rootfs_node="${root_node}p2"
-do_expand_rootfs $rootfs_node $root_node
-sync
-echo "***************************************************" > /dev/ttyS0
-echo "*  The rootfilesystem is expanded successfully !  *" > /dev/ttyS0
-echo "*      This device is going to reboot NOW !!!     *" > /dev/ttyS0
-echo "***************************************************" > /dev/ttyS0
+main() {
+	# Get rootfile system partition from cmdline. e.g. /dev/mmcblk0p2
+	local kernel_cmd
+	local rootfs_partition_node
+	local expand_partition_node
+	local root_device_node
+
+	kernel_cmd=$(cat /proc/cmdline)
+	rootfs_partition_node="${kernel_cmd##*root=}"
+	rootfs_partition_node="${rootfs_partition_node%% *}"
+	root_device_node="${rootfs_partition_node%%p2}"
+	expand_partition_node="${root_device_node}p${EXPAND_PARTITION_NUMBER}"
+	do_expand_partition "${expand_partition_node}" "${root_device_node}"
+	sync
+	success_message
+}
+
+main "${@}"
+
+exit 0
