@@ -4,30 +4,32 @@
 #
 # Authors:
 # 	2018	Wes Huang	<Wes.Huang@moxa.com>
+# 	2019	Fero JD Zhou	<FeroJD.Zhou@moxa.com>
+# 	2020	Ken CJ Chou	<KenCJ.Chou@moxa.com>
 
-rfs_resize () {
+rfs_resize() {
 	expand2fs
 	mv /sbin/expand2fs /sbin/expand2fs.bak
 	sync
 	/sbin/reboot -d -f -i
 }
 
-init_gpio () {
+init_gpio() {
 	local gpio=${1}
 	local direction=${2}
 	local value=${3}
 
 	if [ ! -e "/sys/class/gpio/gpio${gpio}" ]; then
-		echo ${gpio} > "/sys/class/gpio/export"
-		echo ${direction} > "/sys/class/gpio/gpio${gpio}/direction"
+		echo "${gpio}" > "/sys/class/gpio/export"
+		echo "${direction}" > "/sys/class/gpio/gpio${gpio}/direction"
 	fi
-	if [ X"${direction}" == X"out" ]; then
-		echo ${value} > "/sys/class/gpio/gpio${gpio}/value"
+	if [ "${direction}" = "out" ]; then
+		echo "${value}" > "/sys/class/gpio/gpio${gpio}/value"
 	fi
 }
 
-get_model_name () {
-	local model_name=$(mx-ver -m | awk '{print $1}')
+get_model_name() {
+	local model_name="$(mx-ver -m | awk '{print $1}')"
 
 	case ${model_name} in
 	UC-8112A-ME-T-LX)
@@ -44,10 +46,10 @@ get_model_name () {
 		;;
 	esac
 
-	echo ${model_name}
+	echo "${model_name}"
 }
 
-one_time_setting () {
+one_time_setting() {
 	# fix the issue that mount storage fuse-related filesystem via udev might be failed
 	cp -a /lib/systemd/system/systemd-udevd.service /etc/systemd/system/
 	sed -i 's/MountFlags=slave/MountFlags=shared/' /etc/systemd/system/systemd-udevd.service
@@ -63,21 +65,21 @@ one_time_setting () {
 	fi
 }
 
-initial_wifi () {
+initial_wifi() {
 	if dmesg | grep "idProduct=9378" > /dev/null; then
 		systemctl start moxa-wifi-signald.service
 	fi
 }
 
-initial_cellular () {
-		systemctl start moxa-cellular-utils.service
-		systemctl start moxa-cellular-signald.service
+initial_cellular() {
+	systemctl start moxa-cellular-utils.service
+	systemctl start moxa-cellular-signald.service
 }
 
-initial_tpm2 () {
+initial_tpm2() {
 	local tpm2="$(fw_printenv -n tpm2 2>/dev/null)"
 
-	if [ "${tpm2}" == "1" ]; then
+	if [ "${tpm2}" = "1" ]; then
 		export TPM2TOOLS_TCTI_NAME=device
 		export TPM2TOOLS_DEVICE_FILE=/dev/tpmrm0
 		init_gpio "112" "in"
@@ -85,11 +87,8 @@ initial_tpm2 () {
 	fi
 }
 
-uc8100a_me_initial () {
-	local model_name=$(get_model_name)
-
-	ln -sf /etc/moxa-configs/configs/* /etc/moxa-configs/
-	ln -sf /etc/moxa-configs/udev/* /etc/udev/rules.d/
+uc8100a_me_initial() {
+	local model_name="$(get_model_name)"
 
 	# only needs to initial one time
 	if [ -f /sbin/expand2fs ]; then
@@ -114,7 +113,7 @@ uc8100a_me_initial () {
 	initial_tpm2
 }
 
-umount_rfs () {
+umount_rfs() {
 	umount -f -l /tmp
 	umount -f -l /home
 	umount -f -l /media
@@ -130,33 +129,34 @@ umount_rfs () {
 	umount -f -l /overlayfs
 }
 
-stop_wireless () {
+stop_wireless() {
 	cell_mgmt stop
 	wifi_mgmt stop
 	if lsmod | grep "^wlan" -q; then
 		rmmod wlan
-        fi
+	fi
 	mx-module-ctl -s 1 -p off
 }
 
-uc8100a_me_stop () {
+uc8100a_me_stop() {
 	stop_wireless
 	umount_rfs
 }
 
 case "$1" in
-    start)
+start)
 	uc8100a_me_initial
 	;;
-    restart|reload|force-reload)
+restart|reload|force-reload)
 	echo "Error: argument '$1' not supported" >&2
 	exit 3
 	;;
-    stop)
+stop)
 	uc8100a_me_stop
 	;;
-    *)
+*)
 	echo "Usage: $0 start|stop" >&2
 	exit 3
 	;;
 esac
+exit 0
