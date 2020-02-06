@@ -55,7 +55,7 @@ one_time_setting() {
 }
 
 initial_wifi() {
-	if dmesg | grep "idProduct=9378" > /dev/null; then
+	if dmesg | grep -qE "idProduct=9378|idProduct=b82c"; then
 		systemctl start moxa-wifi-signald.service
 	fi
 }
