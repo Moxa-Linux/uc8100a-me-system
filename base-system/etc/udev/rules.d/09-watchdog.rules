@@ -1,1 +1,1 @@
-KERNEL=="/devices/platform/ocp/44e0b000.i2c/i2c-0/0-0068/rtc/rtc0", RUN+="/sbin/modprobe ds1374_wdt"
+DEVPATH=="/bus/i2c/drivers/rtc-ds1374", RUN+="/sbin/modprobe ds1374_wdt"
