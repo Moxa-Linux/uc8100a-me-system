@@ -50,23 +50,12 @@ get_model_name() {
 }
 
 one_time_setting() {
-	# fix the issue that mount storage fuse-related filesystem via udev might be failed
-	cp -a /lib/systemd/system/systemd-udevd.service /etc/systemd/system/
-	sed -i 's/MountFlags=slave/MountFlags=shared/' /etc/systemd/system/systemd-udevd.service
-
-	depmod -a
-
-	# Enable bootloader to pass the fsck.repair parameter to kernel
+	# Enable fcsk for root partition
 	fw_setenv robust 1
-
-	# fix kernel 4.4 swap memory issue.
-	if ! grep "vm.min_free_kbytes" /etc/sysctl.conf > /dev/null; then
-		echo "vm.min_free_kbytes=16384" >> /etc/sysctl.conf
-	fi
 }
 
 initial_wifi() {
-	if dmesg | grep "idProduct=9378" > /dev/null; then
+	if dmesg | grep -qE "idProduct=9378|idProduct=b82c"; then
 		systemctl start moxa-wifi-signald.service
 	fi
 }
