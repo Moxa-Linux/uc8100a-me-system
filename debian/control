@@ -9,7 +9,6 @@ Homepage: https://www.moxa.com/
 Package: uc8100a-me-base-system
 Architecture: any
 Depends: ${misc:Depends},
-         uc8100a-me-configs (= ${binary:Version}),
          uc8100a-me-kernel (>= 4.4.154+2.1.2),
          uc8100a-me-modules-std (>= 4.4.154+2.1.2),
          sparklan-qca9377-driver-4.4.0-cip-am335x (>= 4.4.154+2.1.0),
@@ -37,14 +36,7 @@ Depends: ${misc:Depends},
          libmoxa-push-button-dev (>= 1.1.2+deb9),
          libmoxa-uart-control1 (>= 1.1.3+deb9),
          libmoxa-uart-control-dev (>= 1.1.3+deb9)
-Conflicts: uc8100a-me-moxa-firmware
-Replaces: uc8100a-me-moxa-firmware
+Conflicts: uc8100a-me-configs, uc8100a-me-moxa-firmware
+Replaces: uc8100a-me-configs, uc8100a-me-moxa-firmware
 Description: Base system for UC-8100A-ME
  It contains the necessary tools for setting up UC-8100A-ME
-
-Package: uc8100a-me-configs
-Architecture: all
-Depends: ${misc:Depends},
-Description: UC-8100A-ME platform configuration file
- The platform-related configuration items are recoreded in this file,
- these items will be referred to other platform packages
