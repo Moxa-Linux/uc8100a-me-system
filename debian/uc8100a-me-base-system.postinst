@@ -17,27 +17,42 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
-
-case "$1" in
-    configure)
-
+move_expand2fs_if_already_expanded() {
 	if [ -f /sbin/expand2fs.bak ]; then
 		mv /sbin/expand2fs /sbin/expand2fs.bak
+	fi
+}
+
+remove_old_configs_dir() {
+	if [ -d /etc/moxa-configs/configs ]; then
+		rm -rf /etc/moxa-configs/configs
+	fi
+	if [ -d /etc/moxa-configs/udev ]; then
+		rm -rf /etc/moxa-configs/udev
+	fi
+}
+
+case "$1" in
+configure)
+	move_expand2fs_if_already_expanded
+
+	if dpkg --compare-versions ${2} lt 1.4.0; then
+		remove_old_configs_dir
 	fi
 
 	chmod 4755 /bin/kversion
 
 	echo "*** System successfully updated. ***"
 	echo "*** Please reboot the system...***"
-    ;;
+	;;
 
-    abort-upgrade|abort-remove|abort-deconfigure)
-    ;;
+abort-upgrade|abort-remove|abort-deconfigure)
+	;;
 
-    *)
-        echo "postinst called with unknown argument \`$1'" >&2
-        exit 1
-    ;;
+*)
+	echo "postinst called with unknown argument \`$1'" >&2
+	exit 1
+	;;
 esac
 
 # dh_installdeb will replace this with shell code automatically

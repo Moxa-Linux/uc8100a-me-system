@@ -1,3 +1,11 @@
+uc8100a-me-system (1.4.0) stretch; urgency=medium
+
+  * Refine platform init script
+  * Modify udev rule for probing ds1374_wdt
+  * Probe cryptodev module on boot
+
+ -- Ken CJ Chou <KenCJ.Chou@moxa.com>  Thu, 05 Mar 2020 15:39:44 +0800
+
 uc8100a-me-system (1.2.0+deb9) stretch; urgency=medium
 
   * feat: add moxa module control configuration
