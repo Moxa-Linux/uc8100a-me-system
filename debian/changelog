@@ -1,3 +1,9 @@
+uc8100a-me-system (1.4.1) stretch; urgency=medium
+
+  * Add bluez to dependency 
+
+ -- Ken CJ Chou <KenCJ.Chou@moxa.com>  Tue, 10 Mar 2020 15:50:27 +0800
+
 uc8100a-me-system (1.4.0) stretch; urgency=medium
 
   * Refine platform init script
