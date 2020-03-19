@@ -72,7 +72,7 @@ initial_tpm2() {
 		export TPM2TOOLS_TCTI_NAME=device
 		export TPM2TOOLS_DEVICE_FILE=/dev/tpmrm0
 		init_gpio "112" "in"
-		modprobe tpm_spi_tis
+		modprobe tpm_tis_spi
 	fi
 }
 
