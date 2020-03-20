@@ -54,17 +54,6 @@ one_time_setting() {
 	fw_setenv robust 1
 }
 
-initial_wifi() {
-	if dmesg | grep -qE "idProduct=9378|idProduct=b82c"; then
-		systemctl start moxa-wifi-signald.service
-	fi
-}
-
-initial_cellular() {
-	systemctl start moxa-cellular-utils.service
-	systemctl start moxa-cellular-signald.service
-}
-
 initial_tpm2() {
 	local tpm2="$(fw_printenv -n tpm2 2>/dev/null)"
 
@@ -86,19 +75,6 @@ uc8100a_me_initial() {
 	fi
 
 	mx-module-ctl -s 1 -p on
-	case ${model_name} in
-	UC-8100A-ME-T-LX)
-		initial_cellular
-		initial_wifi
-		;;
-	UC-8100A-ME-T-LX-US|UC-8100A-ME-T-LX-EU|UC-8100A-ME-T-LX-AP)
-		initial_cellular
-		;;
-	*)
-		echo "unknown model name."
-		;;
-	esac
-
 	initial_tpm2
 }
 
