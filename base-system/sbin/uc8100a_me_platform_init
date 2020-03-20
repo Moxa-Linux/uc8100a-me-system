@@ -49,11 +49,6 @@ get_model_name() {
 	echo "${model_name}"
 }
 
-one_time_setting() {
-	# Enable fcsk for root partition
-	fw_setenv robust 1
-}
-
 initial_tpm2() {
 	local tpm2="$(fw_printenv -n tpm2 2>/dev/null)"
 
@@ -70,7 +65,7 @@ uc8100a_me_initial() {
 
 	# only needs to initial one time
 	if [ -f /sbin/expand2fs ]; then
-		one_time_setting
+		fw_setenv robust 1
 		rfs_resize
 	fi
 
