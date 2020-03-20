@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2017 MOXA Inc. - https://www.moxa.com/
 #
 # Authors:
 # 	2018	Wes Huang	<Wes.Huang@moxa.com>
