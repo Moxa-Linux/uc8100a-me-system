@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2017 MOXA Inc. - https://www.moxa.com/
 #
 # Authors:
 # 	2018	Wes Huang	<Wes.Huang@moxa.com>
@@ -49,22 +50,6 @@ get_model_name() {
 	echo "${model_name}"
 }
 
-one_time_setting() {
-	# Enable fcsk for root partition
-	fw_setenv robust 1
-}
-
-initial_wifi() {
-	if dmesg | grep -qE "idProduct=9378|idProduct=b82c"; then
-		systemctl start moxa-wifi-signald.service
-	fi
-}
-
-initial_cellular() {
-	systemctl start moxa-cellular-utils.service
-	systemctl start moxa-cellular-signald.service
-}
-
 initial_tpm2() {
 	local tpm2="$(fw_printenv -n tpm2 2>/dev/null)"
 
@@ -72,7 +57,7 @@ initial_tpm2() {
 		export TPM2TOOLS_TCTI_NAME=device
 		export TPM2TOOLS_DEVICE_FILE=/dev/tpmrm0
 		init_gpio "112" "in"
-		modprobe tpm_spi_tis
+		modprobe tpm_tis_spi
 	fi
 }
 
@@ -81,24 +66,11 @@ uc8100a_me_initial() {
 
 	# only needs to initial one time
 	if [ -f /sbin/expand2fs ]; then
-		one_time_setting
+		fw_setenv robust 1
 		rfs_resize
 	fi
 
 	mx-module-ctl -s 1 -p on
-	case ${model_name} in
-	UC-8100A-ME-T-LX)
-		initial_cellular
-		initial_wifi
-		;;
-	UC-8100A-ME-T-LX-US|UC-8100A-ME-T-LX-EU|UC-8100A-ME-T-LX-AP)
-		initial_cellular
-		;;
-	*)
-		echo "unknown model name."
-		;;
-	esac
-
 	initial_tpm2
 }
 
