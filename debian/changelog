@@ -1,3 +1,10 @@
+uc8100a-me-system (1.4.2) stretch; urgency=medium
+
+  * Adjust cell/wifi service start mechanism
+  * Update dependencies
+
+ -- Ken CJ Chou <KenCJ.Chou@moxa.com>  Fri, 20 Mar 2020 17:57:28 +0800
+
 uc8100a-me-system (1.4.1) stretch; urgency=medium
 
   * Add bluez to dependency 

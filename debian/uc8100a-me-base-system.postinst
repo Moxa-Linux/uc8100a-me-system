@@ -32,12 +32,27 @@ remove_old_configs_dir() {
 	fi
 }
 
+disable_services() {
+	if systemctl is-enabled -q moxa-cellular-utils.service; then
+		systemctl disable moxa-cellular-utils.service
+	fi
+	if systemctl is-enabled -q moxa-cellular-signald.service; then
+		systemctl disable moxa-cellular-signald.service
+	fi
+	if systemctl is-enabled -q moxa-wifi-signald.service; then
+		systemctl disable moxa-wifi-signald.service
+	fi
+}
+
 case "$1" in
 configure)
 	move_expand2fs_if_already_expanded
 
 	if dpkg --compare-versions ${2} lt 1.4.0; then
 		remove_old_configs_dir
+	fi
+	if dpkg --compare-versions ${2} lt 1.4.2; then
+		disable_services
 	fi
 
 	chmod 4755 /bin/kversion
