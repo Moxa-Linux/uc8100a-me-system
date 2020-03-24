@@ -1,0 +1,8 @@
+KERNEL!="mmcblk[0-9]p[0-9]", GOTO="sd_cards_auto_mount_end"
+
+ACTION=="add", KERNELS=="mmc0", RUN+="/bin/bash -c '/bin/echo 1 > /sys/class/leds/UC-8100A-ME\:GREEN\:SD/brightness'"
+
+ACTION=="remove", KERNELS=="mmc0", RUN+="/bin/bash -c '/bin/echo 0 > /sys/class/leds/UC-8100A-ME\:GREEN\:SD/brightness'"
+
+LABEL="sd_cards_auto_mount_end"
+
