@@ -1,0 +1,8 @@
+KERNEL!="sd[a-z]*", GOTO="usb_auto_mount_end"
+
+ACTION=="add", KERNELS=="usb2", RUN+="/bin/bash -c '/bin/echo 1 > /sys/class/leds/UC-8100A-ME\:GREEN\:USB/brightness'"
+
+ACTION=="remove", KERNELS=="usb2", RUN+="/bin/bash -c '/bin/echo 0 > /sys/class/leds/UC-8100A-ME\:GREEN\:USB/brightness'"
+
+LABEL="usb_auto_mount_end"
+
