@@ -1,3 +1,9 @@
+uc8100a-me-system (1.4.4) stretch; urgency=medium
+
+  * Update dependencies
+
+ -- Ken CJ Chou <KenCJ.Chou@moxa.com>  Tue, 31 Mar 2020 00:35:41 +0800
+
 uc8100a-me-system (1.4.3) stretch; urgency=medium
 
   * Add udev rules for SD/USB LED
