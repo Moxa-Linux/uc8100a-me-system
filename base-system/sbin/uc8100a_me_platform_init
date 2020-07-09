@@ -21,11 +21,17 @@ init_gpio() {
 	local value=${3}
 
 	if [ ! -e "/sys/class/gpio/gpio${gpio}" ]; then
-		echo "${gpio}" > "/sys/class/gpio/export"
-		echo "${direction}" > "/sys/class/gpio/gpio${gpio}/direction"
+		echo "${gpio}" > /sys/class/gpio/export
 	fi
-	if [ "${direction}" = "out" ]; then
-		echo "${value}" > "/sys/class/gpio/gpio${gpio}/value"
+
+	if [ "${direction}" = "in" ]; then
+		echo "in" > /sys/class/gpio/gpio${gpio}/direction
+	elif [ "${direction}" = "out" ]; then
+		if [ "${value}" = "0" ]; then
+			echo "low" > /sys/class/gpio/gpio${gpio}/direction
+		elif [ "${value}" = "1" ]; then
+			echo "high" > /sys/class/gpio/gpio${gpio}/direction
+		fi
 	fi
 }
 
