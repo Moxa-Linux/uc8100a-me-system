@@ -1,3 +1,9 @@
+uc8100a-me-system (1.5.1) stretch; urgency=medium
+
+  * Update dependencies
+
+ -- Ken CJ Chou <KenCJ.Chou@moxa.com>  Fri, 24 Jul 2020 12:11:09 +0800
+
 uc8100a-me-system (1.5.0) stretch; urgency=medium
 
   * Update dependencies
